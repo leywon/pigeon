@@ -1,3 +1,12 @@
+/**
+ * @file example1.cpp
+ * @author Wang Liao
+ * @brief
+ * @version 0.1
+ * @date 2022-02-20
+ *
+ * @copyright Copyright Wang Liao (c) 2022, MIT licence
+ */
 #include <pigeon.hpp>
 using namespace pigeon;
 
@@ -23,6 +32,8 @@ int main()
 
     client.openConnection();
     // connection session opened
+
+    // sendData member function will only be valid between a pair of ``openConnection()'' and ``closeConnection()''
     client.sendData(message.c_str(), strlen(message.c_str()));
 
     // to store response
@@ -34,6 +45,8 @@ int main()
               << "From:\n"
               << client.getServerIP() << " At port: " << client.getPortNumber()
               << std::endl;
+
+    client.closeConnection();
 
     return 0;
 }
