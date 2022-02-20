@@ -1,18 +1,25 @@
-/* The pigeon c++ network socket library: a simple c++ unix network socket library
-    Copyright (C) 2022  Wang Liao
+/*
+// @ file
+// @ author Wang Liao <warrenleywon@gmail.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+// @section LICENSE
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+//     Copyright (C) 2022  Wang Liao
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//     This program is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+
+//     This program is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+
+//     You should have received a copy of the GNU General Public License
+//     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// @section DESCRIPTION
+// The pigeon c++ network socket library: a simple c++ unix network socket library
 */
 
 #include <stdio.h>
@@ -45,8 +52,10 @@ namespace pigeon
 {
     // class declarations
     class ClientSide;
-    class serverSide;
+    class __serverSide;
     class visitor;
+    class serverSideTCP;
+    class serverSideUDP;
     class __pigeon;
 
     class __pigeon
@@ -69,7 +78,7 @@ namespace pigeon
          * @brief resolve the information contained in struct addrinfo into a human readable ip address and port number. The ip address is written to IP, and port number is returned.
          *
          * @param serverInfo pointer to the struct addrinfo, ready to be decoded.
-         * @return int return port number on success, else return -1
+         * @return  return port number on success, else return -1
          */
         int _addressDestructuring(struct addrinfo *serverInfo);
 
@@ -78,24 +87,44 @@ namespace pigeon
          *
          * @param serverInfo pointer to the struct addrinfo, ready to be decoded.
          * @param address std string that will contained the decoded address, IP is untouched
-         * @return int port number on success, else return -1
+         * @return port number on success, else return -1
          */
 
         int _addressDestructuring(struct addrinfo *serverInfo, std::string &address);
 
         /**
-         * @brief
+         * @brief resolve the information in a struct sockaddr pointed to by the argument socket; store the address information into the std string address, return port number on success
          *
-         * @param socket
-         * @param address
-         * @return int
+         * @param socket pointer to the sockaddr that is going to be decripted
+         * @param address will set to the address info upon success
+         * @return port number, -1 for error
          */
 
         int _addressDestructuring(struct sockaddr *socket, std::string &address);
 
+        /**
+         * @brief Enforce timeout setting: program will wait for the information coming from the other side of the connection. If the maximum waiting time is reached, the program will skip the reading
+         *
+         * @param socketDescriptor file descriptor to modify the property
+         * @return 0 on success, -1 on error
+         */
         int _timeOutEnforcement(int socketDescriptor);
 
+        /**
+         * @brief Construct the linked structure from the object's parameter: IP, port number, etc
+         *
+         * @param serverLinked pointer to the pointer pointed to the structure that is the head of the data link
+         * @return 0 on success and -1 on error
+         */
+
         int _addressLinkedConstructuring(struct addrinfo **serverLinked);
+
+        /**
+         * @brief Construct the linked structure from the object's parameter: find the ip information about the machine the program is running on
+         *
+         * @param serverLinked pointer to the pointer pointed to the structure that is the head of the data link
+         * @return 0 on success and -1 on error
+         */
 
         int _addressLinkedSelfConstructing(struct addrinfo **serverLinked);
 
@@ -103,26 +132,131 @@ namespace pigeon
         struct sockaddr_in broadcastServerSocketAddress;
 
         // when success, return 0 and open a udp broadcasting session.
+        /**
+         * @brief This function start the broadcasting session
+         *
+         * @param BroadcastServerAddress The broadcast address, inferred from executing "$ip a" at the terminal
+         * @return 0 on success, -1 when error occur
+         */
         int startBroadcast(std::string BroadcastServerAddress);
+        /**
+         * @brief Send broadcasting information. This function is only valid between ``startBroadcast'' and ``closeBroadcast''
+         *
+         * @param data pointer to the beginning of the data block that is going to be transmitted
+         * @param sizeInBytes the number of bytes that will be transmitted
+         * @return 0 on success, -1 for error
+         */
         int broadcasting(const void *data, size_t sizeInBytes);
+        /**
+         * @brief Close the broadcasting session
+         *
+         * @return 0 on success, -1 for error
+         */
         int closeBroadcast();
 
     public:
         // default constructor
         __pigeon();
+        /**
+         * @brief Print the object's internal error log to screen
+         *
+         */
         void printErrorLog();
+
+        /**
+         * @brief This virtual function will send data when connection is established
+         *
+         * @param data constant pointer to the beginning of the data block that is going to be transmitted
+         * @param sizeInBytes the number of bytes that is going to be transmitted
+         * @return 0 on success, -1 for error
+         */
         virtual int sendData(const void *data, size_t sizeInBytes);
+        /**
+         * @brief Read the data from the port
+         *
+         * @param data pointer to the segment of memory that is going to fill in the data
+         * @param sizeInBytes the number of bytes to be received: excess bytes will be truncated
+         * @return 0 on success, -1 for error
+         */
         virtual int readData(void *data, size_t sizeInBytes);
+        /**
+         * @brief Get the Port Number
+         *
+         * @return port number
+         */
         int getPortNumber();
+        /**
+         * @brief Get the Protocol Type: "tcp" or "udp"
+         *
+         * @return std::string
+         */
         std::string getProtocolType();
+        /**
+         * @brief get the IP address recorded by the setAddress function
+         *
+         * @return std::string
+         */
         std::string getIP();
+        /**
+         * @brief Set the Address e.g. "example.com", "127.0.0.1"
+         *
+         * @param serverAddress std string of the address: e.g. "example.com", "127.0.0.1"
+         */
         void setAddress(std::string serverAddress);
+        /**
+         * @brief Set the Port Number
+         *
+         * @param portNumber
+         * @return int
+         */
         int setPortNumber(int portNumber);
+        /**
+         * @brief Set the Protocol Type: must be "tcp" or "udp" surrounded by double quotes
+         *
+         * @param type string, either "tcp" or "udp" surrounded by DOUBLE QUOTES
+         */
         void setProtocolType(std::string type);
+        /**
+         * @brief Set the maximum amount of the time consumed for sending data
+         *
+         * @param second integer of second
+         * @return 0 on success, -1 for error
+         */
         int setTimeOut_Send(int second);
+        /**
+         * @brief Get the the maximum amount of the time consumed for sending data
+         *
+         * @return time in second
+         */
         int getTimeOut_Send();
+        /**
+         * @brief Set the maximum amount of the time consumed for reading data, including waiting for data to come to port
+         *
+         * @param second time in second
+         * @return 0 on success, -1 for error
+         */
         int setTimeOut_Read(int second);
+        /**
+         * @brief Get the TimeOut time setted by the setTimeOut_Read
+         *
+         * @return time in second, integer
+         */
         int getTimeOut_Read();
+
+        /**
+         * @brief Get the ip version from the object
+         *
+         * @return std::string IP version: PIGEON_IPV4, or PIGEON_IPV6 macro
+         */
+
+        std::string getIPversion();
+
+        /**
+         * @brief Set the IP version into the object
+         *
+         * @param IPversion std::string, either PIGEON_IPV4 or PIGEON_IPV6 macro
+         */
+        void setIPversion(std::string IPversion);
         // destructor
         ~__pigeon(){};
     };
@@ -138,12 +272,40 @@ namespace pigeon
         // constructor
         clientSide(std::string serverAddress, int portNumber, std::string protocolType = "tcp", std::string IPversion = PIGEON_IPV4); //
         clientSide();                                                                                                                 //
+        /**
+         * @brief Open a new connection session
+         *
+         * @param serverAddress e.g. "example.com", "127.0.0.1"
+         * @param portNumber port number
+         * @param protocolType "tcp" or "udp" surrounded by DOUBLE QUOTES
+         * @param IPversion PIGEON_IPV4 or PIGEON_IPV6
+         * @return 0 on success, -1 for error
+         */
         int openNewConnection(std::string serverAddress,
                               int portNumber, std::string protocolType, std::string IPversion = PIGEON_IPV4); //
-
+        /**
+         * @brief Close the connection session to the server
+         *
+         * @return 0 on success, -1 for error
+         */
         int closeConnection(); //
+        /**
+         * @brief Open a connection session
+         *
+         * @return 0 on success, -1 for error
+         */
         int openConnection();
-        std::string getServerIP();                        //
+        /**
+         * @brief Get the Server IP address
+         *
+         * @return std::string, the address of the server
+         */
+        std::string getServerIP(); //
+        /**
+         * @brief Set the Server Address
+         *
+         * @param serverAddress e.g. "example.com", "127.0.0.1" surround by double quotes
+         */
         void setServerAddress(std::string serverAddress); //
         // destructor
         ~clientSide(); //

@@ -435,3 +435,13 @@ int __pigeon::closeBroadcast()
 
     return 0;
 }
+
+std::string __pigeon::getIPversion()
+{
+    return IPversion;
+}
+
+void __pigeon::setIPversion(std::string IPversion)
+{
+    this->IPversion = IPversion;
+}
