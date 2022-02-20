@@ -24,6 +24,7 @@ using namespace pigeon;
 int main()
 {
 
+    // create a client side object, set the server to connect to be HOST, and open port number PORT
     clientSide client{HOST, PORT};
     // this string will tell the server to reply the html page information
     std::string message{"GET / HTTP/1.1\r\nHost: cubicshape.com\r\n\r\n"};
@@ -39,6 +40,7 @@ int main()
     // to store response
     char reply[1024];
 
+    // read the data from the server
     client.readData(reply, sizeof(reply));
     // print the response
     std::cout << std::string{reply} << "\n"
@@ -46,6 +48,7 @@ int main()
               << client.getServerIP() << " At port: " << client.getPortNumber()
               << std::endl;
 
+    // close the tcp connection session
     client.closeConnection();
 
     return 0;
