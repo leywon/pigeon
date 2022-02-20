@@ -23,8 +23,8 @@ serverSideUDP::serverSideUDP(int portNumber, std::string IPversion)
     setPortNumber(portNumber);
     setProtocolType("udp");
     setQueryRate(BACKLOG_DEFAULT);
-    setTimeOut_Read(TIMEOUT_ONE_MINUTE);
-    setTimeOut_Send(TIMEOUT_ONE_MINUTE);
+    setTimeOut_Read(0);
+    setTimeOut_Send(0);
     incomingClientAddressLength = sizeof(struct sockaddr_storage);
     this->IPversion = IPversion;
 }
@@ -34,8 +34,8 @@ serverSideUDP::serverSideUDP()
     setPortNumber(PORT_NUMBER_DEFAULT);
     setProtocolType("udp");
     setQueryRate(BACKLOG_DEFAULT);
-    setTimeOut_Read(TIMEOUT_ONE_MINUTE);
-    setTimeOut_Send(TIMEOUT_ONE_MINUTE);
+    setTimeOut_Read(0);
+    setTimeOut_Send(0);
     incomingClientAddressLength = sizeof(struct sockaddr_storage);
     IPversion = PIGEON_IPV4;
 }
