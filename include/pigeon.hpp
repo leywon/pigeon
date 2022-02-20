@@ -48,6 +48,9 @@
 #define PIGEON_IPV4 "ipv4"
 #define PIGEON_IPV6 "ipv6"
 
+#define PIGEON_TCP "tcp"
+#define PIGEON_UDP "udp"
+
 namespace pigeon
 {
     // class declarations
@@ -324,14 +327,39 @@ namespace pigeon
     {
     protected:
         // when success, bindSocket will prepare a socket descriptor for further process
+        /**
+         * @brief This function will bind the socket to a specific port that is store inside the object (the port number can be accessed using corresponding getters and setters member functions)
+         *
+         * @return int, 0 on success, -1 for error
+         */
         int bindSocket();
         int queryRate;
 
     public:
         // openServer is a pure virtual method
+        /**
+         * @brief This is a pure virtual methods that need to be override by the correspoinding derived class
+         *
+         * @return int , should return 0 on success
+         */
         virtual int openServer() = 0;
+        /**
+         * @brief Close the server
+         *
+         * @return int ,0 on success, -1 for error
+         */
         virtual int closeServer();
+        /**
+         * @brief Set the speed of connection: how fast that is needed for a client to connect to the server
+         *
+         * @param rate integer (typically 5 to 120), the higher the number, the faster the connection speed
+         */
         void setQueryRate(int rate);
+        /**
+         * @brief Get the Query Rate
+         *
+         * @return int , the higher the number, the faster the connection speed
+         */
         int getQueryRate();
 
         // making some protected members public
@@ -352,12 +380,23 @@ namespace pigeon
     {
     public:
         // constructor
+        /**
+         * @brief Construct a new server Side TCP object
+         *
+         * @param portNumber set the port number of the server
+         */
         serverSideTCP(int portNumber); //
         serverSideTCP();
         // openServer must be override
         int openServer();
         // destructor
         ~serverSideTCP(); //
+        /**
+         * @brief This function will write the necessary information about a newly accepted connection to a visitor object. Later, the communication through the new connection will be completed with the visitor object
+         *
+         * @param newVisitor reference to the visitor object: this will be modified
+         * @return int, 0 on success, -1 for error
+         */
         int getOneVisitor(visitor &newVisitor);
     };
 
@@ -385,7 +424,18 @@ namespace pigeon
         int closeConnection();     //
         // destructor
         ~visitor(); //
+        /**
+         * @brief Set the Latency Time: when closing the visitor object, it will wait for a certain amount of millisecond before actually close the connection. This functionality is to hopefully make sure the visitor receives the closing FIN from the client (This process is handled by the kernel). Set to 0 if you have your own protocol of closing built on top of the transport layer.
+         *
+         * @param millisecond integer, typically 300
+         * @return int ,0 on success, -1 for error
+         */
         int setLatencyTime(int millisecond);
+        /**
+         * @brief Show the latency time
+         *
+         * @return int , in the unit of millisecond
+         */
         int getLatencyTime();
     };
 
@@ -400,18 +450,78 @@ namespace pigeon
 
     public:
         // constructor
+        /**
+         * @brief Construct a new server Side UDP object, with port number, and the ip version that is going to be used.
+         *
+         * @param portNumber nonnegative integer
+         * @param IPversion PIGEON_IPV4(default) or PIGEON_IPV6
+         */
         serverSideUDP(int portNumber, std::string IPversion = PIGEON_IPV4); //
         serverSideUDP();                                                    //
         // openServer must be override
+        /**
+         * @brief Open a new UDP connection session
+         *
+         * @return int, 0 on success, -1 for error
+         */
         int openServer(); //
         // override the sendData and readData
+        /**
+         * @brief Write down the information about the destination (a machine) so that the sendData function can deliver the data to the destination by the UDP protocol.
+         *
+         * @param address e.g. "example.com", "127.0.0.1", or "localhost"
+         * @param portNumber non-negative integer
+         * @param IPversion PIGEON_IPV4 (default) or PIGEON_IPV6
+         * @return int, 0 on success, -1 for error
+         */
         int writeDestinationInfo(std::string address, int portNumber, std::string IPversion = PIGEON_IPV4); //
+        /**
+         * @brief getters to show the destination port number
+         *
+         * @return int , port number
+         */
         int checkDestinationPortNumber();
+        /**
+         * @brief getters to show the destination address
+         *
+         * @return std::string, contains the IP address
+         */
         std::string checkDestinationAddress();
+        /**
+         * @brief Getters to show where's the port that the incoming traffic is sent from
+         *
+         * @return int, port number
+         */
         int checkIncomingPortNumber();
+        /**
+         * @brief Getters, check the IP address where the incoming data comes from
+         *
+         * @return std::string, contains IP address
+         */
         std::string checkIncomingAddress();
-        int sendData(const void *data, size_t sizeInBytes);    //
-        int readData(void *data, size_t sizeInBytes);          //
+        /**
+         * @brief Send a block of data to the destination with the information setted by the setters
+         *
+         * @param data pointed to the beginning of the block of information that is going to be sent
+         * @param sizeInBytes how many bytes to send
+         * @return int, 0 on success, -1 for error
+         */
+        int sendData(const void *data, size_t sizeInBytes); //
+        /**
+         * @brief Read the incoming data, and set the internal variables to hold the incoming address, and port number to be read by getters
+         *
+         * @param data pointer point to the beginning of the memory segment that contains the incoming binary data
+         * @param sizeInBytes how many bytes to read, overflow data will be trimmed and discarded
+         * @return int, 0 on success, -1 for error
+         */
+        int readData(void *data, size_t sizeInBytes); //
+        /**
+         * @brief The object will record temporarily the incoming address and port number until the next readData (after that they will be resetted). This function will reply message to the address that has just been registered by the readData member function
+         *
+         * @param data pointed to the beginning of the block of information that is going to be sent
+         * @param sizeInBytes how many bytes to read, overflow data will be trimmed and discarded
+         * @return int, 0 on success, -1 for error
+         */
         int replyToRead(const void *data, size_t sizeInBytes); //
         // destructor
         ~serverSideUDP(); //
