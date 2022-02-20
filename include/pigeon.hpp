@@ -268,8 +268,8 @@ namespace pigeon
     {
     private:
         // make some public inherited  member function private
-        using __pigeon::getIP;
-        using __pigeon::setAddress;
+        // using __pigeon::getIP;
+        // using __pigeon::setAddress;
 
     public:
         // constructor

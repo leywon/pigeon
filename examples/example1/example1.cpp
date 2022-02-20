@@ -18,6 +18,7 @@ using namespace pigeon;
  */
 
 #define HOST "example.com"
+#define HOST_ANOTHER "google.com"
 // http uses port 80
 #define PORT 80
 
@@ -51,6 +52,28 @@ int main()
               << std::endl;
 
     // close the tcp connection session after finishing the connection
+    client.closeConnection();
+
+    // object can be reused once previous connection session is closed
+    // Use setServerAddress not setAddress(ambiguous)
+    client.setServerAddress(HOST_ANOTHER);
+    client.openConnection();
+    // open another connection session
+    // this string will tell the server to reply the html page information
+    message = "GET / HTTP/1.1\r\nHost: ";
+    message += (std::string{HOST_ANOTHER} + "\r\n\r\n");
+
+    // sendData member function will only be valid between a pair of ``openConnection()'' and ``closeConnection()''
+    client.sendData(message.c_str(), strlen(message.c_str()));
+
+    // read the data from the server
+    client.readData(reply, sizeof(reply));
+    // print the response
+    std::cout << std::string{reply} << "\n"
+              << "From:\n"
+              << client.getServerIP() << " At port: " << client.getPortNumber()
+              << std::endl;
+
     client.closeConnection();
 
     return 0;
