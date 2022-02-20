@@ -11,7 +11,7 @@
 using namespace pigeon;
 
 /**
- * @brief This program demonstrate how to query information from a http serverv. Compile with
+ * @brief This program demonstrate how to query information from a http server. Compile with
  * $g++ -Wall example1.cpp -lpigeon -o example1
  *
  *
@@ -32,6 +32,7 @@ int main()
     // client will wait for 5 second, if there is no response, then the control flow will continue, and will not block
     client.setTimeOut_Read(5);
 
+    // we need to open the connection so the message can be sent
     client.openConnection();
     // connection session opened
 
@@ -49,7 +50,7 @@ int main()
               << client.getServerIP() << " At port: " << client.getPortNumber()
               << std::endl;
 
-    // close the tcp connection session
+    // close the tcp connection session after finishing the connection
     client.closeConnection();
 
     return 0;
