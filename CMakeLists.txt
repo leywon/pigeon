@@ -1,76 +1,79 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(codeNamePigeon)
+project(pigeon
+	LANGUAGES CXX
+	VERSION 0.0.1
+)
 
+#collect all source codes into a list called ``allSource''
 aux_source_directory(${CMAKE_SOURCE_DIR}/src allSource)
 
+
+#add source code to project
 add_library(pigeon ${allSource})
 
+#specifying the include dir
 target_include_directories(pigeon PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 
-#enable higher c++ standard
-target_compile_options(pigeon PUBLIC $<$<COMPILE_LANGUAGE:CXX>: -Wall -Wextra -std=c++17 -static
- -g
->)
+#tune the compiling options
+target_compile_options(pigeon PUBLIC $<$<COMPILE_LANGUAGE:CXX>: -Wall -Wextra -std=c++17 -static>)
 
 #link to the thread library
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-
 target_link_libraries(
 	pigeon
 	PRIVATE Threads::Threads
 )
 
-add_executable(c1 c1.cpp)
+#This module contains the information about
+#where to install the static library
+include(GNUInstallDirs)
 
-target_link_libraries(c1
-	PRIVATE pigeon
-	PRIVATE Threads::Threads
+#install the main library
+install(
+    TARGETS pigeon
+    #"ARCHIVE" means the static library
+    ARCHIVE
+    	DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    	COMPONENT "core"
 )
 
-add_executable(s1 s1.cpp)
-
-target_link_libraries(s1
-	PRIVATE pigeon
-	PRIVATE Threads::Threads
+#install the header
+install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/include
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+	FILES_MATCHING PATTERN "*.hpp"
 )
 
-
-add_executable(bc1 bc1.cpp)
-
-target_link_libraries(bc1
-	PRIVATE pigeon
-	PRIVATE Threads::Threads
+#install copyright info
+install(
+	DIRECTORY ${CMAKE_SOURCE_DIR}/others/
+	DESTINATION ${CMAKE_INSTALL_DATADIR}/docs/${PROJECT_NAME}
 )
 
-add_executable(bs1 bs1.cpp)
-
-target_link_libraries(bs1
-	PRIVATE pigeon
-	PRIVATE Threads::Threads
+set(CPACK_PACKAGE_DESCRIPTION
+    "A simple C++ Unix Socket Netowork library: enable convenient implementations of TCP and UDP socket programming."
 )
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
+    "Simple C++ Unix Socket Netowork library"
+)
+#generator for generating a ".deb" package
+set(CPACK_GENERATOR "DEB")
 
-# add_executable(test3c test3c.cpp)
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "wang (cuboidtrick, warren, leywon, etc)")
+set(CPACK_PACKAGE_CONTACT "warrenleywon@gmail.com")
 
-# target_link_libraries(test3c
-# 	PRIVATE pigeon
-# 	PRIVATE Threads::Threads
-# )
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 
-
-# add_executable(test3s test3s.cpp)
-
-# target_link_libraries(test3s
-# 	PRIVATE pigeon
-# 	PRIVATE Threads::Threads
-# )
-
-# add_executable(test4s test4s.cpp)
-
-# target_link_libraries(test4s
-# 	PRIVATE pigeon
-# 	PRIVATE Threads::Threads
-# )
-
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS YES)
+set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
+set(
+    CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS
+    OWNER_READ OWNER_WRITE OWNER_EXECUTE
+    GROUP_READ GROUP_EXECUTE
+    WORLD_READ WORLD_EXECUTE
+)
+include(CPack)
