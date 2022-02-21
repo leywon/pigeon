@@ -24,7 +24,7 @@ $ make
 $ sudo make install
 ```
 
-#### Uninstall if the software is installed from source
+#### Uninstallation (if the software is installed from source)
 Navigate to the `build` directory created during the building process, executing the following commands:
 ```
 $ sudo xargs rm <install_manifest.txt
