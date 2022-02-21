@@ -43,7 +43,7 @@ $ cpack
 ### About Firewall
 The ports on **two different computers** which are implemented for TCP/UDP connection must be opened before the establishment of the connection. Usually these ports are blocked by the firewall.
 
-##### Here is an example for how to open a port with the firewall software `firewalld`
+##### Here are example for how to deal with ports on the firewall with the software `firewalld`
 Show a list of ports that are opened by the firewall:
 ```
 $ sudo firewall-cmd --list-port
@@ -65,6 +65,7 @@ Close a port 2022 for UDP service:
 $ sudo firewall-cmd --remove-port=2022/udp
 ```
 To make the change permanent, attach `--permanent` flag at the end.
+>Close ports as much as possible, only open them if it is absolutely necessary for the program to run (e.g., running the programs compiled from the `examples` folders, without opening these ports, the program will not be able to send information outside: they don't have the root privilege). **Always make it clear what to do before opening a port, and close it after using it** 
 
 ### About the Termination of TCP connection
 To terminate the TCP connection, one end of the connection should receive another end's `FIN` signal (handled by the Linux kernel) before closing the connection. If both ends of the connection close simultaneously, then the `FIN` signal will not reach each other, and the port will be blocked by the kernel. The time it is blocked after such abruption is subjected to the kernel's discretion.
