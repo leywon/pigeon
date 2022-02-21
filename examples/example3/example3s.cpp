@@ -3,11 +3,11 @@
 using namespace pigeon;
 
 /**
- * @file example2s.cpp
+ * @file example3s.cpp
  * @author Wang Liao
  * @brief
  * @version 0.1
- * @date 2022-02-20
+ * @date 2022-02-21
  *
  * @copyright Copyright Wang Liao (c) 2022, MIT licence
  */
@@ -15,8 +15,8 @@ using namespace pigeon;
 using namespace pigeon;
 
 /**
- * @brief This program demonstrate how to send information to a client with TCP protocol. Compile with
- * $g++ -Wall example2s.cpp -lpigeon -o example2s
+ * @brief This program demonstrate how to send information to a client with UDP protocol. Compile with
+ * $g++ -Wall example3s.cpp -lpigeon -o example3s
  * This program is intended to run on a machine that has only an static IP address.
  *
  *
@@ -28,33 +28,28 @@ using namespace pigeon;
 int main()
 {
     // create a serverSideTCP object
-    serverSideTCP server{PORT};
+    serverSideUDP server{PORT};
     // this string will be sent to the server
     std::string message{"Hello, from the server."};
     // server will wait for 60 second, if there is no response, then the control flow will continue, and will not block
     server.setTimeOut_Read(TIMEOUT_ONE_MINUTE);
     server.openServer();
     // the tcp connection session opened
-    // start to handle incoming connection
-    visitor newClient;
-    server.getOneVisitor(newClient);
-    // once we get one client, we can continue to get more visitor. But for this example, we don't need that much:
-    server.closeServer();
     // to store client response
     char reply[256];
 
     // read the data from the server
-    newClient.readData(reply, sizeof(reply));
+    server.readData(reply, sizeof(reply));
     // print the response
     std::cout << std::string{reply} << "\n"
               << "From:\n"
-              << newClient.getClientIP() << " At port: " << newClient.getPortNumber()
+              << server.checkIncomingAddress() << " At port: " << server.getPortNumber()
               << std::endl;
     // sent greeting to the client
-    newClient.sendData(message.c_str(), strlen(message.c_str()));
+    server.replyToRead(message.c_str(), strlen(message.c_str()));
 
     // close the communication
-    newClient.closeConnection();
+    server.closeServer();
 
     return 0;
 }
