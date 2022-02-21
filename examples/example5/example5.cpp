@@ -30,9 +30,9 @@ int main()
     loudspeaker.setPortNumber(PORT);
 
     loudspeaker.startBroadcast(BROADCAST);
-    loudspeaker.printErrorLog();
+
     loudspeaker.broadcasting(broadcastMessage.c_str(), strlen(broadcastMessage.c_str()));
-    loudspeaker.printErrorLog();
+
     loudspeaker.closeBroadcast();
 
     return 0;
