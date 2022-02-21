@@ -12,7 +12,7 @@
 using namespace pigeon;
 
 /**
- * @brief This program demonstrate how to do UDP IPv4 broadcasting: every machine in the local network that reads to the PORT will receive the broadcast message
+ * @brief This program demonstrate how to do UDP IPv4 broadcasting: every computer in the local network that reads to the PORT will receive the broadcast message
  * $g++ -Wall example5.cpp -lpigeon -o example5
  *
  * Run program ``example3s.cpp'' to see the result
