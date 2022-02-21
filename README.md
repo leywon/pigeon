@@ -41,7 +41,7 @@ $ cpack
 ```
 ## Things to know when dealing with network programming
 ### About Firewall
-The ports on **computers** which are running as a server (*passively* accepting incoming requests that *are actively sent* by the clients) must be opened before the establishment of the connection. Usually these ports are blocked by the firewall.
+The ports on **computers** which are running as a server (*passively* accepting incoming connection requests that *are actively sent* by the clients) must be opened before the establishment of the connection. Usually these ports are blocked by the firewall.
 
 Objects initialized from the classes `serverSideTCP` and `serverSideUDP`, which provide the functionality of a TCP or a UDP server, will not work if the ports they are binding to is blocked by the firewall.
 ##### Here are example for how to deal with ports on the firewall with the software `firewalld`
