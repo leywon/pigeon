@@ -6,7 +6,7 @@ A simple C++ Unix Socket Netowork library.
 
 This software contains the tools to deal with network socket in a simple way. It will enable the user to integrate the network functionality rapidly into their project, and build some functionality on top of the transport layer of the Open System Interconnection (OSI) model.
 
->The original purpose was to let C++ applications communicate with the python scripts, and livestream the numerical simulation over the Internet.  This is only the first step. For the interprocess communication, because one work with the same machine, so the representation of floating-point numbers isn't an issue. However, floating-point numbers are represented in different binary forms for different machine architectures. To overcome this difficulty, one would need data serialization tools. I believe there're plenty of them that have been developed.
+>The original purpose was to let C++ applications communicate with the python scripts, and livestream the numerical simulation over the Internet.  This is only the first step. For the interprocess communication, because one work with the same machine, so the representation of floating-point numbers isn't an issue. However, floating-point numbers are represented in different binary forms under different machine architectures. To overcome this difficulty, one would need data serialization tools. I believe there're plenty of them that have been developed.
 
 ## Installation 
 
@@ -87,3 +87,12 @@ $ netstat -tulpen
 Read the header file in the `include` directory of this repository.
 
 For example programs, see the codes under the `examples` directory.
+
+There's a `CMakeLists.txt` under the examples folder, to build all examples, navigate to the `examples` folder, and execute the following commands after install the software:
+
+```
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+```
