@@ -10,7 +10,7 @@ This software contains the tools to deal with network socket in a simple way. It
 
 ## Installation 
 
-The installation instructions in this section is only tested on Debian GNU/Linux 11 (bullseye) distribution.
+The installation instructions in this section are only tested on a Debian GNU/Linux 11 (bullseye) distribution.
 
 ### To install this software from source
 
@@ -97,4 +97,9 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
+```
+>Finally, I hope you enjoy coding, and through this effort, to bring benefit for the humankind.
+```
+W. L. 
+22 Feb 2022, Auckland
 ```
