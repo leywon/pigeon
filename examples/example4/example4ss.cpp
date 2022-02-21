@@ -13,13 +13,13 @@ using namespace pigeon;
 /**
  * @brief This program demonstrate how to send information between servers with UDP protocol. Compile with
  * $g++ -Wall example4ss.cpp -lpigeon -o example4ss
- * This program is intended to run on a machine that has a static IP address.
+ * This program is intended to run on a computer that has a static IP address.
  *
  *  Run example4sr first.
  *
  */
 
-// replace "localhost" with the static ip address of the machine that runs the server4sr.cpp program
+// replace "localhost" with the static ip address of the computer that runs the server4sr.cpp program
 #define HOST "localhost"
 // the port must be opened by the firewall
 #define PORTs 2022

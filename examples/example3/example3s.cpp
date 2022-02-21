@@ -17,7 +17,7 @@ using namespace pigeon;
 /**
  * @brief This program demonstrate how to send information to a client with UDP protocol. Compile with
  * $g++ -Wall example3s.cpp -lpigeon -o example3s
- * This program is intended to run on a machine that has only an static IP address.
+ * This program is intended to run on a computer that has only an static IP address.
  *
  *
  */

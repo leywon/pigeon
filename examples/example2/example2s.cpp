@@ -17,7 +17,7 @@ using namespace pigeon;
 /**
  * @brief This program demonstrate how to send information to a client with TCP protocol. Compile with
  * $g++ -Wall example2s.cpp -lpigeon -o example2s
- * This program is intended to run on a machine that has only an static IP address.
+ * This program is intended to run on a computer that has only an static IP address.
  *
  *
  */

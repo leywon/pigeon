@@ -6,7 +6,7 @@ A simple C++ Unix Socket Netowork library.
 
 This software contains the tools to deal with network socket in a simple way. It will enable the user to integrate the network functionality rapidly into their project, and build softwares on top of the transport layer of the Open System Interconnection (OSI) model.
 
->The original purpose was to let C++ applications communicate with the python scripts, and livestream the numerical simulation over the Internet.  This is only the first step. For the interprocess communication, because one would work with the same machine, so the representation of floating-point numbers isn't an issue. However, floating-point numbers are represented in different binary forms under different machine architectures. To overcome this difficulty, one would need data serialization tools. I believe there're plenty of them that have been developed.
+>The original purpose was to let C++ applications communicate with the python scripts, and livestream the numerical simulation over the Internet.  This is only the first step. For the interprocess communication, because one would work with the same computer, so the representation of floating-point numbers isn't an issue. However, floating-point numbers are represented in different binary forms under different computer architectures. To overcome this difficulty, one would need data serialization tools. I believe there're plenty of them that have been developed.
 
 ## Installation 
 
@@ -41,7 +41,7 @@ $ cpack
 ```
 ## Things to know when dealing with network programming
 ### About Firewall
-The ports on **two different machines** which are implemented for TCP/UDP connection must be opened before the establishment of the connection. Usually these ports are blocked by the firewall.
+The ports on **two different computers** which are implemented for TCP/UDP connection must be opened before the establishment of the connection. Usually these ports are blocked by the firewall.
 
 ##### Here is an example for how to open a port with the firewall software `firewalld`
 Show a list of ports that are opened by the firewall:
@@ -84,7 +84,7 @@ $ netstat -tulpen
 
 ### Documentation for this software
 
-Read the header file in the `include` directory of this repository. 
+Read the header file in the `include` directory of this repository. The documentation style follows the *Doxygen style* so it is possible to generate a documentation with the Doxygen software.
 
 For example programs, see the codes under the `examples` directory.
 

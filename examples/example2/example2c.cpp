@@ -13,7 +13,7 @@ using namespace pigeon;
 /**
  * @brief This program demonstrate how to send information to a server with TCP protocol. Compile with
  * $g++ -Wall example2c.cpp -lpigeon -o example2c
- * This program is intended to run on a machine that has either a static or dynamic IP address.
+ * This program is intended to run on a computer that has either a static or dynamic IP address.
  *
  *
  */
