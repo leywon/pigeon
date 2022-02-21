@@ -41,7 +41,7 @@ $ cpack
 ```
 ## Things to know when dealing with network programming
 ### About Firewall
-The ports on **two different machines** which are implemented for TCP/UDP connection must be opened before the establishment of the connection. Usually these ports are blocked by firewall.
+The ports on **two different machines** which are implemented for TCP/UDP connection must be opened before the establishment of the connection. Usually these ports are blocked by the firewall.
 
 ##### Here is an example for how to open a port with the firewall software `firewalld`
 Show a list of ports that are opened by the firewall:
@@ -66,15 +66,15 @@ $ sudo firewall-cmd --remove-port=2022/udp
 ```
 To make the change permanent, attach `--permanent` flag at the end.
 
-### About Termination of TCP connection
-To terminate the TCP connection, one end of the connection should receive another end's `FIN` signal (handled by the Linux kernel) before closing the connection. If both ends close simultaneously, then the `FIN` signal will not reach each other, and the port will be blocked by the kernel. The time it is blocked is subjected to the kernel's discretion.
+### About the Termination of TCP connection
+To terminate the TCP connection, one end of the connection should receive another end's `FIN` signal (handled by the Linux kernel) before closing the connection. If both ends of the connection close simultaneously, then the `FIN` signal will not reach each other, and the port will be blocked by the kernel. The time it is blocked after such abruption is subjected to the kernel's discretion.
 
 ### How to check the IP address information
-To show the machine's IP address information, execute in the terminal:
+To show the computer's IP address information, execute in the terminal:
 ```
 $ ip a
 ```
-To find the broadcast IPv4 address, look for the word `brd`
+To find the broadcast IPv4 address, look for the keyword `brd`
 
 ### How to check ative port
 Execute in the terminal:
@@ -84,7 +84,7 @@ $ netstat -tulpen
 
 ### Documentation for this software
 
-Read the header file in the `include` directory of this repository.
+Read the header file in the `include` directory of this repository. 
 
 For example programs, see the codes under the `examples` directory.
 
