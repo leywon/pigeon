@@ -44,7 +44,7 @@ $ cpack
 The ports on **two different machines** which are implemented for TCP/UDP connection must be opened before the establishment of the connection. Usually these ports are blocked by firewall.
 
 >Here is an example for how to open a port with the firewall software `firewalld`
-Show a list of ports that are opened by the firewall:
+>Show a list of ports that are opened by the firewall:
 ```
 $ sudo firewall-cmd --list-port
 ```
