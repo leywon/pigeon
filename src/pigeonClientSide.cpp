@@ -151,7 +151,7 @@ int clientSide::openConnection()
 
     if (!success)
     {
-        _errorLog = std::string{strerror(errno)} != "Success" ? ("Error: " + std::string{strerror(errno)}) : "Probably ipv6 UDP fault.";
+        _errorLog = std::string{strerror(errno)} != "Success" ? ("Error: " + std::string{strerror(errno)}) : "Error: Probably ipv6 UDP fault.";
         _SocketDescriptor = -1;
 
         return -1;
