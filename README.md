@@ -4,7 +4,7 @@ A simple C++ Unix Socket Netowork library.
 
 ## About this software
 
-This software contains the tools to deal with network socket in a simple way. It will enable the user to integrate the network functionality rapidly into their project, and build softwares on top of the transport layer of the Open System Interconnection (OSI) model.
+This software contains the tools to deal with network sockets in a simple way. It will enable the user to integrate the network functionality rapidly into their project, and build softwares on top of the transport layer of the Open System Interconnection (OSI) model.
 
 >The original purpose was to let C++ applications communicate with the python scripts, and livestream the numerical simulation over the Internet.  This is only the first step. For the interprocess communication, because one would work with the same computer, so the representation of floating-point numbers isn't an issue. However, floating-point numbers are represented in different binary forms under different computer architectures. To overcome this difficulty, one would need data serialization tools. I believe there're plenty of them that have been developed.
 
@@ -43,7 +43,7 @@ $ cpack
 ### About Firewall
 The ports on **computers** which are running as a server (*passively* accepting incoming connection requests that *are actively sent* by the clients) must be opened before the establishment of the connection. Usually these ports are blocked by the firewall.
 
-Objects initialized from the classes `serverSideTCP` and `serverSideUDP`, which provide the functionality of a TCP or a UDP server, will not work if the ports they are binding to is blocked by the firewall.
+Objects initialized from the classes `serverSideTCP` and `serverSideUDP`, which provide the functionality of a TCP or a UDP server, will not work if the ports they are binding to are blocked by the firewall.
 ##### Here are examples for how to deal with ports on the firewall with the software `firewalld`
 Show a list of ports that are opened by the firewall:
 ```
