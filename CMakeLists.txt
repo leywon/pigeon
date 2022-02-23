@@ -47,11 +47,7 @@ install(
 	FILES_MATCHING PATTERN "*.hpp"
 )
 
-#install copyright info
-install(
-	DIRECTORY ${CMAKE_SOURCE_DIR}/others/
-	DESTINATION ${CMAKE_INSTALL_DATADIR}/docs/${PROJECT_NAME}
-)
+
 
 set(CPACK_PACKAGE_DESCRIPTION
     "A simple C++ Unix Socket Netowork library: enable convenient implementations of TCP and UDP socket programming."
