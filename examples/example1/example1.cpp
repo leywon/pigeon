@@ -25,7 +25,7 @@ using namespace pigeon;
 int main()
 {
 
-    // create a client side object, set the target server be HOST, and open port number PORT, so the client object will prepare to connect to the server
+    // create a client side object, set the target server be HOST (replace it with "example.com"), and the destination port number on the server be PORT, so the client object will prepare to connect to the server
     clientSide client{HOST, PORT};
     // this string will tell the server to reply the html page information
     std::string message{"GET / HTTP/1.1\r\nHost: "};
@@ -38,6 +38,7 @@ int main()
     // connection session opened
 
     // sendData member function will only be valid between a pair of ``openConnection()'' and ``closeConnection()''
+    // the data will be deliver to the server HOST, and to the port number PORT on that server
     client.sendData(message.c_str(), strlen(message.c_str()));
 
     // to store response
