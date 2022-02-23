@@ -1,7 +1,3 @@
-#include <pigeon.hpp>
-
-using namespace pigeon;
-
 /**
  * @file example3s.cpp
  * @author Wang Liao
@@ -27,7 +23,7 @@ using namespace pigeon;
 
 int main()
 {
-    // create a serverSideTCP object
+    // create a serverSideUDP object
     serverSideUDP server{PORT};
     // this string will be sent to the server
     std::string message{"Hello, from the server."};

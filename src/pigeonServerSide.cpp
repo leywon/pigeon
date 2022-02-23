@@ -62,8 +62,7 @@ int __serverSide::bindSocket()
                             // break the loop
                             break;
                         }
-
-                        if ((serverinfo->ai_family == AF_INET6) && (IPversion == PIGEON_IPV6))
+                        else if ((serverinfo->ai_family == AF_INET6) && (IPversion == PIGEON_IPV6))
                         {
 
                             // successfully find a valid socket descriptor
@@ -72,6 +71,11 @@ int __serverSide::bindSocket()
                             _addressDestructuring(serverinfo);
                             // break the loop
                             break;
+                        }
+                        else
+                        {
+                            // release the bind to the socket
+                            close(_SocketDescriptor);
                         }
                     }
                     else

@@ -1,7 +1,3 @@
-#include <pigeon.hpp>
-
-using namespace pigeon;
-
 /**
  * @file example2s.cpp
  * @author Wang Liao
