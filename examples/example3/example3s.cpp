@@ -39,7 +39,7 @@ int main()
     // print the response
     std::cout << std::string{reply} << "\n"
               << "From:\n"
-              << server.checkIncomingAddress() << " At port: " << server.getPortNumber()
+              << server.checkIncomingAddress() << " At port: " << server.checkIncomingPortNumber()
               << std::endl;
     // sent greeting to the client
     server.replyToRead(message.c_str(), strlen(message.c_str()));

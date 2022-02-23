@@ -25,7 +25,7 @@ serverSideUDP::serverSideUDP(int portNumber, std::string IPversion)
     setQueryRate(BACKLOG_DEFAULT);
     setTimeOut_Read(0);
     setTimeOut_Send(0);
-    incomingClientAddressLength = sizeof(struct sockaddr_storage);
+    incomingClientAddressLength = sizeof(addr_incomingClient);
     this->IPversion = IPversion;
 }
 
@@ -36,7 +36,7 @@ serverSideUDP::serverSideUDP()
     setQueryRate(BACKLOG_DEFAULT);
     setTimeOut_Read(0);
     setTimeOut_Send(0);
-    incomingClientAddressLength = sizeof(struct sockaddr_storage);
+    incomingClientAddressLength = sizeof(addr_incomingClient);
     IPversion = PIGEON_IPV4;
 }
 
@@ -203,13 +203,13 @@ std::string serverSideUDP::checkDestinationAddress()
 int serverSideUDP::checkIncomingPortNumber()
 {
     std::string addressIncoming;
-    return _addressDestructuring((struct sockaddr *)&addr_destinationClient, addressIncoming);
+    return _addressDestructuring((struct sockaddr *)&addr_incomingClient, addressIncoming);
 }
 
 std::string serverSideUDP::checkIncomingAddress()
 {
     std::string addressIncoming;
-    _addressDestructuring((struct sockaddr *)&addr_destinationClient, addressIncoming);
+    _addressDestructuring((struct sockaddr *)&addr_incomingClient, addressIncoming);
 
     return addressIncoming;
 }

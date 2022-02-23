@@ -175,7 +175,7 @@ int __pigeon::_addressDestructuring(struct addrinfo *serverInfo)
         {
             this->IP = std::string{ip4};
 
-            return serverinfo_in->sin_port;
+            return ntohs(serverinfo_in->sin_port);
         }
         else
         {
@@ -193,7 +193,7 @@ int __pigeon::_addressDestructuring(struct addrinfo *serverInfo)
         {
             this->IP = std::string{ip6};
 
-            return serverinfo_in->sin6_port;
+            return ntohs(serverinfo_in->sin6_port);
         }
         else
         {
@@ -216,7 +216,7 @@ int __pigeon::_addressDestructuring(struct addrinfo *serverInfo, std::string &ad
         {
             address = std::string{ip4};
 
-            return serverinfo_in->sin_port;
+            return ntohs(serverinfo_in->sin_port);
         }
         else
         {
@@ -234,7 +234,7 @@ int __pigeon::_addressDestructuring(struct addrinfo *serverInfo, std::string &ad
         {
             address = std::string{ip6};
 
-            return serverinfo_in->sin6_port;
+            return ntohs(serverinfo_in->sin6_port);
         }
         else
         {
@@ -281,15 +281,12 @@ int __pigeon::_addressDestructuring(struct sockaddr *socket, std::string &addres
     { // we get an ipv4 client
         // create chars to hold IPv4 string
         char ip4[INET_ADDRSTRLEN];
-        // create int to store port number
-        int port_number;
         struct sockaddr_in *socket_in = (struct sockaddr_in *)socket;
         if (inet_ntop(AF_INET, &(socket_in->sin_addr), ip4, INET_ADDRSTRLEN) != NULL)
         {
             address = std::string{ip4};
-            port_number = socket_in->sin_port;
 
-            return port_number;
+            return ntohs(socket_in->sin_port);
         }
         else
         {
@@ -302,15 +299,12 @@ int __pigeon::_addressDestructuring(struct sockaddr *socket, std::string &addres
     {
         // we get an ipv6 client
         char ip6[INET6_ADDRSTRLEN];
-        // create int to store port number
-        int port_number;
         struct sockaddr_in6 *socket_in = (struct sockaddr_in6 *)socket;
-        if (inet_ntop(AF_INET, &(socket_in->sin6_addr), ip6, INET_ADDRSTRLEN) != NULL)
+        if (inet_ntop(AF_INET6, &(socket_in->sin6_addr), ip6, INET6_ADDRSTRLEN) != NULL)
         {
             address = std::string{ip6};
-            port_number = socket_in->sin6_port;
 
-            return port_number;
+            return ntohs(socket_in->sin6_port);
         }
         else
         {

@@ -59,7 +59,7 @@ int __serverSide::bindSocket()
                             // successfully find a valid socket descriptor
                             success = true;
                             // record the IP address
-                            _addressDestructuring(serverinfo);
+                            portNumber = _addressDestructuring(serverinfo);
                             // break the loop
                             break;
                         }
@@ -69,7 +69,7 @@ int __serverSide::bindSocket()
                             // successfully find a valid socket descriptor
                             success = true;
                             // record the IP address
-                            _addressDestructuring(serverinfo);
+                            portNumber = _addressDestructuring(serverinfo);
                             // break the loop
                             break;
                         }
@@ -85,7 +85,7 @@ int __serverSide::bindSocket()
                         //  successfully find a valid socket descriptor
                         success = true;
                         // record the IP address
-                        _addressDestructuring(serverinfo);
+                        portNumber = _addressDestructuring(serverinfo);
                         // break the loop
                         break;
                     }

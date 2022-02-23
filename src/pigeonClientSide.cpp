@@ -119,7 +119,8 @@ int clientSide::openConnection()
                             // successfully find a valid socket descriptor
                             success = true;
                             // record the IP address
-                            _addressDestructuring(serverinfo);
+                            portNumber = _addressDestructuring(serverinfo);
+
                             // break the loop
                             break;
                         }
@@ -129,7 +130,7 @@ int clientSide::openConnection()
                             // successfully find a valid socket descriptor
                             success = true;
                             // record the IP address
-                            _addressDestructuring(serverinfo);
+                            portNumber = _addressDestructuring(serverinfo);
                             // break the loop
                             break;
                         }
@@ -145,7 +146,7 @@ int clientSide::openConnection()
                         //  successfully find a valid socket descriptor
                         success = true;
                         // record the IP address
-                        _addressDestructuring(serverinfo);
+                        portNumber = _addressDestructuring(serverinfo);
                         // break the loop
                         break;
                     }
