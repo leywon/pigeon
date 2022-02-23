@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2022-02-21
  *
- * @copyright Copyright Wang Liao (c) 2022, MIT licence
+ * @copyright Copyright Wang Liao (c) 2022
  */
 #include <pigeon.hpp>
 using namespace pigeon;
@@ -39,7 +39,7 @@ int main()
     // print the response
     std::cout << std::string{reply} << "\n"
               << "From:\n"
-              << server.checkIncomingAddress() << " At port: " << server.checkIncomingPortNumber()
+              << server.checkIncomingAddress() << " At port: " << server.checkIncomingPortNumber() // use checkIncomingPortNumber to check incoming traffic source address port
               << std::endl;
     // sent greeting to the client
     server.replyToRead(message.c_str(), strlen(message.c_str()));

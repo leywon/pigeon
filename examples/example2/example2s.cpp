@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2022-02-20
  *
- * @copyright Copyright Wang Liao (c) 2022, MIT licence
+ * @copyright Copyright Wang Liao (c) 2022
  */
 #include <pigeon.hpp>
 using namespace pigeon;

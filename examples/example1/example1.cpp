@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2022-02-20
  *
- * @copyright Copyright Wang Liao (c) 2022, MIT licence
+ * @copyright Copyright Wang Liao (c) 2022
  */
 #include <pigeon.hpp>
 using namespace pigeon;
@@ -25,7 +25,7 @@ using namespace pigeon;
 int main()
 {
 
-    // create a client side object, set the server to connect to be HOST, and open port number PORT
+    // create a client side object, set the target server be HOST, and open port number PORT, so the client object will prepare to connect to the server
     clientSide client{HOST, PORT};
     // this string will tell the server to reply the html page information
     std::string message{"GET / HTTP/1.1\r\nHost: "};

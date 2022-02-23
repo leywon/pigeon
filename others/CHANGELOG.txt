@@ -1,5 +1,0 @@
-Pigeon Library 0.0.1
-----------------------
-- First release of the package
-- Provide TCP, UDP programming utilities for C++
-- Support both ipv4 and ipv6 (ipv6 is experimental)
