@@ -105,6 +105,7 @@ int clientSide::openConnection()
                 if (connect(_SocketDescriptor, serverinfo->ai_addr, serverinfo->ai_addrlen) < 0)
                 {
                     // even if the socket is available, we should abandon the unconnectable one
+                    close(_SocketDescriptor);
                     continue;
                 }
                 else
@@ -122,8 +123,7 @@ int clientSide::openConnection()
                             // break the loop
                             break;
                         }
-
-                        if ((serverinfo->ai_family == AF_INET6) && (IPversion == PIGEON_IPV6))
+                        else if ((serverinfo->ai_family == AF_INET6) && (IPversion == PIGEON_IPV6))
                         {
 
                             // successfully find a valid socket descriptor
@@ -132,6 +132,11 @@ int clientSide::openConnection()
                             _addressDestructuring(serverinfo);
                             // break the loop
                             break;
+                        }
+                        else
+                        {
+                            // we need to close the socket descriptor
+                            close(_SocketDescriptor);
                         }
                     }
                     else

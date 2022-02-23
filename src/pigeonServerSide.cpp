@@ -45,6 +45,7 @@ int __serverSide::bindSocket()
             {
                 if (bind(_SocketDescriptor, serverinfo->ai_addr, serverinfo->ai_addrlen) < 0)
                 {
+                    close(_SocketDescriptor);
                     continue;
                 }
                 else
