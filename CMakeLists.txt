@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 project(pigeon
 	LANGUAGES CXX
-	VERSION 0.1.2
+	VERSION 0.1.5
 )
 
 #collect all source codes into a list called ``allSource''
