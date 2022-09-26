@@ -1,5 +1,5 @@
 # The 🕊️ Pigeon 🕊️  Project
-A simple C++ Unix Socket Netowork library. 
+A simple C++ Unix Socket Network library. 
 >"Pigeon library, network made easy!"
 
 ## About this software
