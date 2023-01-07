@@ -31,6 +31,8 @@ int main()
     std::string message{"GET / HTTP/1.1\r\nHost: "};
     message += (std::string{HOST} + "\r\n\r\n");
     // client will wait for 5 second, if there is no response, then the control flow will continue, and will not block
+    // notice that the control flow will not block at the next statement, the blocking only happen when the readData method is called and the server does 
+    // not response yet, in other words, it only set the internal parameter related to the time out property
     client.setTimeOut_Read(5);
 
     // we need to open the connection so the message can be sent
