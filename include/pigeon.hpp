@@ -21,20 +21,24 @@
 // @section DESCRIPTION
 // The pigeon c++ network socket library: a simple c++ unix network socket library
 */
-
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <string.h>
-#include <string>
 #include <iostream>
-#include <arpa/inet.h>
+#include <string>
 #include <thread>
-#include <errno.h>
 #include <chrono>
-#include <sys/time.h>
+#include <cstdio>
+
+extern "C"
+{
+    #include <unistd.h>
+    #include <sys/types.h>
+    #include <sys/socket.h>
+    #include <netdb.h>
+    #include <string.h>
+    #include <arpa/inet.h>
+    #include <errno.h>
+    #include <sys/time.h>
+}
+
 
 // include guard
 #ifndef __pigeon_stations_1519__

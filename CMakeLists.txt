@@ -5,23 +5,31 @@ project(pigeon
 	VERSION 0.1.5
 )
 
-#collect all source codes into a list called ``allSource''
-aux_source_directory(${CMAKE_SOURCE_DIR}/src allSource)
-
-
-#add source code to project
-add_library(pigeon ${allSource})
-
-#specifying the include dir
-target_include_directories(pigeon PUBLIC ${CMAKE_SOURCE_DIR}/include)
-
-
-#tune the compiling options
-target_compile_options(pigeon PUBLIC $<$<COMPILE_LANGUAGE:CXX>: -Wall -Wextra -std=c++17 -static>)
+include(GNUInstallDirs)
 
 #link to the thread library
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
+
+#collect all source codes into a list called ``allSource''
+aux_source_directory(${pigeon_SOURCE_DIR}/src allSource)
+
+
+#add source code to project
+add_library(pigeon STATIC ${allSource})
+
+#specifying the include dir
+target_include_directories(pigeon 
+                           #PUBLIC ${CMAKE_SOURCE_DIR}/include
+                           PUBLIC "$<BUILD_INTERFACE:${pigeon_SOURCE_DIR}/include>"
+                           INTERFACE "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/pigeon>"
+                           )
+
+
+#tune the compiling options
+# target_compile_options(pigeon PUBLIC $<$<COMPILE_LANGUAGE:CXX>: -Wall -Wextra -std=c++17 -static>)
+
+
 target_link_libraries(
 	pigeon
 	PRIVATE Threads::Threads

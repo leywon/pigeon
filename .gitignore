@@ -1,3 +1,4 @@
 # We must ignore the dirty build directories so they won't soil the repository
 /build/
 /examples/build/
+/.vscode/
