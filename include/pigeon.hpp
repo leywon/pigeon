@@ -21,6 +21,8 @@
 // @section DESCRIPTION
 // The pigeon c++ network socket library: a simple c++ unix network socket library
 */
+
+#pragma once
 #include <iostream>
 #include <string>
 #include <thread>
@@ -38,11 +40,6 @@ extern "C"
     #include <errno.h>
     #include <sys/time.h>
 }
-
-
-// include guard
-#ifndef __pigeon_stations_1519__
-#define __pigeon_stations_1519__
 
 #define TIMEOUT_ONE_MINUTE 60
 #define BACKLOG_DEFAULT 5
@@ -536,4 +533,3 @@ namespace pigeon
     };
 
 }; // namespace pigeon
-#endif
