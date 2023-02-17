@@ -20,14 +20,9 @@ add_library(pigeon STATIC ${allSource})
 
 #specifying the include dir
 target_include_directories(pigeon 
-                           #PUBLIC ${CMAKE_SOURCE_DIR}/include
                            PUBLIC "$<BUILD_INTERFACE:${pigeon_SOURCE_DIR}/include>"
                            INTERFACE "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/pigeon>"
                            )
-
-
-#tune the compiling options
-# target_compile_options(pigeon PUBLIC $<$<COMPILE_LANGUAGE:CXX>: -Wall -Wextra -std=c++17 -static>)
 
 
 target_link_libraries(
@@ -35,49 +30,26 @@ target_link_libraries(
 	PRIVATE Threads::Threads
 )
 
-#This module contains the information about
-#where to install the static library
-include(GNUInstallDirs)
+if(NOT ${CMAKE_BUILD_TYPE} MATCHES "Debug")
+    add_compile_options(-O3 -match=native)
 
-#install the main library
-install(
-    TARGETS pigeon
-    #"ARCHIVE" means the static library
-    ARCHIVE
-    	DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    	COMPONENT "core"
-)
+    # install the header
+    install(DIRECTORY ${pigeon_SOURCE_DIR}/include/ 
+            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/pigeon)
 
-#install the header
-install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/include/
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-	FILES_MATCHING PATTERN "*.hpp"
-)
+    install(TARGETS pigeon
+                EXPORT pigeonTarget
+                ARCHIVE
+                    DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            )
+    
+    install(EXPORT pigeonTarget
+                DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/pigeon)
 
+    install(FILES "pigeonConfig.cmake"
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/pigeon)
 
-
-set(CPACK_PACKAGE_DESCRIPTION
-    "A simple C++ Unix Socket Netowork library: enable convenient implementations of TCP and UDP socket programming."
-)
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
-    "Simple C++ Unix Socket Netowork library"
-)
-#generator for generating a ".deb" package
-set(CPACK_GENERATOR "DEB")
-
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "wang (cuboidtrick, warren, leywon, etc)")
-set(CPACK_PACKAGE_CONTACT "warrenleywon@gmail.com")
-
-set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
-
-set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS YES)
-set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
-set(
-    CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS
-    OWNER_READ OWNER_WRITE OWNER_EXECUTE
-    GROUP_READ GROUP_EXECUTE
-    WORLD_READ WORLD_EXECUTE
-)
-include(CPack)
+else()
+    target_compile_options(pigeon PUBLIC $<$<COMPILE_LANGUAGE:CXX>: -Wall -Wextra -std=c++17 -static>)
+    add_subdirectory(examples)
+endif()

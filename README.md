@@ -15,30 +15,40 @@ The installation instructions in this section are only tested on a Debian GNU/Li
 ### To install this software from source
 
 #### Installation
+>The installation is now only possible through cmake, as it provides a clean and safe way to install without the restriction to use sudopower.
+
+To install the pigeon library, the first thing to do is to decide where to put it. 
+
+Let's say Josh would like to put his build library in the folder `$HOME/Documents/libpigeon`, 
+which expands to full path `/home/Josh/Documents/libpigeon`. Then Josh needs to do the following:
 Navigate to the root directory of this repository, execute the following commands:
 ```
 $ mkdir build
 $ cd build
-$ cmake ..
-$ make
-$ sudo make install
+$ cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/Documents/libpigeon
+$ make -j6
+$ make install
 ```
+Josh doesn't need sudopower to execute these commands. The macro `CMAKE_BUILD_TYPE` is set to `Release` (Notice that it is case sensitive), which triggers the release build configuration, and the makefiles will install everything into the folder `$HOME/Documents/libpigeon` as Josh wishes. The flag `-j6` tells the make program to use 6 threads so the build process will speed up to some extent.
 
-#### Uninstallation (if the software is installed from source)
-Navigate to the `build` directory created during the building process, executing the following commands:
-```
-$ sudo xargs rm <install_manifest.txt
-```
-### To build the debian package from source
+#### Uninstallation
+To uninstall the software, simply delete the folders created during installation. 
 
-Navigate to the root directory of this repository, executing the following commands:
+For example, if Josh decides to use another better software (there're planty of them) to do networking stuff, or he has learnt enough to forge a powerful network socket library, then what he needs to get rid of this software is simply delete the folder `/home/Josh/Documents/libpigeon` and its content and proceed as he wishes.
+
+### How to use this software
+Because now the proper way to use this software is through CMake, simply add the `find_package` line to your `CMakeLists.txt`. 
+
+Let's say Josh wants to use this software to build something interesting. He would need to add
 ```
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
-$ cpack
+find_package(pigeon REQUIRED HINTS /home/Josh/Documents/libpigeon)
 ```
+in this CMakeLists.txt so CMake will know where he installed the software, and then he can link his project with
+```
+target_link_libraries(${PROJECT_NAME} pigeon)
+```
+The `HINTS` in the `find_package` option tell the CMake to look for folder `/home/Josh/Documents/libpigeon` first to find the installed software.
+
 ## Things to know when dealing with network programming
 ### About Firewall
 The ports on **computers** which are running as a server (*passively* accepting incoming connection requests that *are actively sent* by the clients) must be opened before the establishment of the connection. Usually these ports are blocked by the firewall.
@@ -90,16 +100,17 @@ Read the header file in the `include` directory of this repository. The document
 
 For example programs, see the codes under the `examples` directory.
 
-There's a `CMakeLists.txt` under the examples folder, to build all examples, navigate to the `examples` folder, and execute the following commands after install the software:
+There's a `CMakeLists.txt` under the examples folder, to build all examples, navigate to the root folder of this repository, and execute the following commands:
 
 ```
 $ mkdir build
 $ cd build
-$ cmake ..
-$ make
+$ cmake .. -DCMAKE_BUILD_TYPE=Debug
+$ make -j6
 ```
 >Finally, I hope you enjoy coding, and through this effort, to bring benefit for the humankind.
 ```
 W. L. 
 22 Feb 2022, Auckland
+Revised on 17 Feb 2023, Auckland
 ```
