@@ -8,8 +8,7 @@ project(pigeon
 include(GNUInstallDirs)
 
 #link to the thread library
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
+find_package(Threads)
 
 #collect all source codes into a list called ``allSource''
 aux_source_directory(${pigeon_SOURCE_DIR}/src allSource)
@@ -27,7 +26,7 @@ target_include_directories(pigeon
 
 target_link_libraries(
 	pigeon
-	PRIVATE Threads::Threads
+	PRIVATE ${CMAKE_THREAD_LIBS_INIT}
 )
 
 if(NOT ${CMAKE_BUILD_TYPE} MATCHES "Debug")
